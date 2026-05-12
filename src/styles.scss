@@ -1,1 +1,111 @@
-/* You can add global styles to this file, and also import other style files */
+// ── PrimeNG + PrimeIcons ────────────────────────────────
+@use "primeicons/primeicons.css";
+
+// ── Design tokens de la clínica ────────────────────────
+:root {
+  --clinic-primary:         #0ea5e9;
+  --clinic-primary-hover:   #38bdf8;
+  --clinic-sidebar-bg:      #0b1628;
+  --clinic-success:         #22c55e;
+  --clinic-warning:         #f59e0b;
+  --clinic-danger:          #ef4444;
+  --bg-app:                 #f0f4f8;
+  --topbar-bg:              #ffffff;
+  --topbar-border:          rgba(15, 23, 42, 0.08);
+}
+
+.dark-mode {
+  --bg-app:            #0f172a;
+  --topbar-bg:         #1e293b;
+  --topbar-border:     rgba(255, 255, 255, 0.06);
+  --clinic-sidebar-bg: #070f1d;
+
+  // Aplicamos fondo oscuro al body y superficies
+  body { background: var(--bg-app); }
+
+  .main-area { background: var(--bg-app); }
+
+  .topbar {
+    background: var(--topbar-bg) !important;
+    border-bottom-color: var(--topbar-border) !important;
+  }
+
+  // PrimeNG components en oscuro (se complementan con la config de preset)
+  .p-card, .p-datatable, .p-dialog .p-dialog-content {
+    background: #1e293b !important;
+    color: #e2e8f0 !important;
+  }
+
+  .table-card, .card, .info-card, .side-card, .hero-card {
+    background: #1e293b !important;
+    border-color: rgba(255, 255, 255, 0.06) !important;
+    color: #e2e8f0;
+  }
+
+  .bc-item, .cell-main, .tl-title, .hero-title,
+  .page-title, .card-title, .info-val { color: #f1f5f9 !important; }
+
+  .bc-item:not(.current), .cell-sub, .tl-date,
+  .info-key, .meta-row { color: #94a3b8 !important; }
+}
+
+// ── Reset base ────────────────────────────────────────────────
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  font-family: 'DM Sans', 'Segoe UI', system-ui, sans-serif;
+  font-size: 14px;
+  color: #0f172a;
+  background: var(--bg-app);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+// ── Typography helpers ───────────────────────────────────
+.page-title {
+  font-size: 22px; font-weight: 600; color: #0f172a;
+  letter-spacing: -0.5px; margin: 0 0 4px;
+}
+
+.page-desc {
+  font-size: 13.5px; color: #64748b; margin: 0 0 24px;
+}
+
+// ── PrimeNG global overrides ────────────────────────────
+.p-button { border-radius: 8px !important; font-weight: 500 !important; }
+.p-inputtext { border-radius: 8px !important; }
+.p-card { border-radius: 12px !important; box-shadow: 0 1px 3px rgba(15,23,42,.07) !important; }
+.p-dropdown { border-radius: 8px !important; }
+.p-calendar input { border-radius: 8px !important; }
+
+.p-datatable {
+  .p-datatable-thead > tr > th {
+    background: #fafafa !important; font-size: 11px !important;
+    font-weight: 700 !important; text-transform: uppercase !important;
+    letter-spacing: 0.7px !important; color: #94a3b8 !important;
+    border-bottom: 1px solid rgba(15,23,42,.07) !important;
+  }
+  .p-datatable-tbody > tr > td {
+    font-size: 13px !important; padding: 12px 16px !important;
+    border-top: 1px solid rgba(15,23,42,.05) !important;
+  }
+  .p-datatable-tbody > tr:hover > td {
+    background: #f8fbff !important;
+  }
+  .p-paginator {
+    border-top: 1px solid rgba(15,23,42,.07) !important;
+  }
+}
+
+// Status badges helpers
+.badge-confirmed { background: #dcfce7; color: #15803d; border-radius: 20px; padding: 3px 10px; font-size: 11px; font-weight: 600; }
+.badge-pending   { background: #fef9c3; color: #a16207; border-radius: 20px; padding: 3px 10px; font-size: 11px; font-weight: 600; }
+.badge-cancelled { background: #fee2e2; color: #dc2626; border-radius: 20px; padding: 3px 10px; font-size: 11px; font-weight: 600; }
+
+// ── Scrollbar global ────────────────────────────────────
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }

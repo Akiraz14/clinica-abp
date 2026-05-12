@@ -1,0 +1,68 @@
+<header class="topbar">
+
+  <!-- Hamburger -->
+  <button class="topbar-toggle" (click)="menuToggle.emit()" aria-label="Menú">
+    <i class="pi pi-bars"></i>
+  </button>
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb">
+    <span class="bc-item">Inicio</span>
+    <i class="pi pi-chevron-right bc-sep"></i>
+    <span class="bc-item current">{{ pageTitle }}</span>
+  </nav>
+
+  <!-- Actions -->
+  <div class="topbar-actions">
+
+    <!-- Search -->
+    <div class="topbar-search">
+      <i class="pi pi-search search-icon"></i>
+      <input pInputText type="text" placeholder="Buscar paciente..." class="search-input" />
+    </div>
+
+    <!-- Notificaciones -->
+    <button class="topbar-btn" pTooltip="Notificaciones" tooltipPosition="bottom">
+      <i class="pi pi-bell"></i>
+      <span class="notif-dot"></span>
+    </button>
+
+    <!-- Mensajes -->
+    <button class="topbar-btn" pTooltip="Mensajes" tooltipPosition="bottom">
+      <i class="pi pi-comments"></i>
+    </button>
+
+    <!-- Toggle Dark Mode -->
+    <button
+      class="topbar-btn"
+      (click)="theme.toggleMode()"
+      [pTooltip]="theme.isDark() ? 'Modo claro' : 'Modo oscuro'"
+      tooltipPosition="bottom"
+    >
+      <i [class]="theme.isDark() ? 'pi pi-sun' : 'pi pi-moon'"></i>
+    </button>
+
+    <!-- Color picker rápido -->
+    <!-- <div class="color-picker-wrap">
+      @for (c of theme.colorPalette; track c.value) {
+        <button
+          class="color-dot"
+          [style.background]="c.value"
+          [class.active]="theme.primaryColor() === c.value"
+          [pTooltip]="c.name"
+          tooltipPosition="bottom"
+          (click)="theme.setPrimaryColor(c.value)"
+        ></button>
+      }
+    </div> -->
+
+    <!-- User menu -->
+    <p-menu #userMenu [model]="userMenuItems" [popup]="true" appendTo="body" />
+    <div class="topbar-user" (click)="userMenu.toggle($event)">
+      <p-avatar label="DR" shape="circle" styleClass="user-avatar" />
+      <span class="user-name">Dr. Ramírez</span>
+      <i class="pi pi-chevron-down chevron"></i>
+    </div>
+
+  </div>
+</header>

@@ -1,11 +1,140 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import { provideRouter, withComponentInputBinding, withViewTransitions } from '@angular/router';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeuix/themes/aura';
+import { MessageService, ConfirmationService } from 'primeng/api';
 
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes)
-  ]
+    provideRouter(routes, withComponentInputBinding(), withViewTransitions()),
+    provideHttpClient(
+      // withInterceptors([authInterceptor]),  // descomentar al tener Auth
+    ),
+
+    // ── PrimeNG v21 ───────────────────────────────────
+    providePrimeNG({
+      theme: {
+        preset: Aura,
+        options: {
+          prefix: 'p',
+          darkModeSelector: '.dark-mode',  // clase que pone ThemeService
+          cssLayer: {
+            name: 'primeng',
+            order: 'tailwind-base, primeng, tailwind-utilities',
+          },
+        },
+      },
+      ripple: true,
+      translation: {
+        // Español completo para PrimeNG
+        startsWith: 'Empieza con',
+        contains: 'Contiene',
+        notContains: 'No contiene',
+        endsWith: 'Termina con',
+        equals: 'Igual a',
+        notEquals: 'No igual a',
+        noFilter: 'Sin filtro',
+        lt: 'Menor que',
+        lte: 'Menor o igual que',
+        gt: 'Mayor que',
+        gte: 'Mayor o igual que',
+        is: 'Es',
+        isNot: 'No es',
+        before: 'Antes de',
+        after: 'Después de',
+        dateIs: 'Fecha es',
+        dateIsNot: 'Fecha no es',
+        dateBefore: 'Fecha antes de',
+        dateAfter: 'Fecha después de',
+        clear: 'Limpiar',
+        apply: 'Aplicar',
+        matchAll: 'Coincidir todo',
+        matchAny: 'Coincidir alguno',
+        addRule: 'Agregar regla',
+        removeRule: 'Quitar regla',
+        accept: 'Sí',
+        reject: 'No',
+        choose: 'Elegir',
+        upload: 'Subir',
+        cancel: 'Cancelar',
+        dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+        dayNamesShort: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],
+        dayNamesMin: ['D','L','M','X','J','V','S'],
+        monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+        monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+        today: 'Hoy',
+        weekHeader: 'Sem',
+        firstDayOfWeek: 1,
+        dateFormat: 'dd/mm/yy',
+        weak: 'Débil',
+        medium: 'Medio',
+        strong: 'Fuerte',
+        passwordPrompt: 'Ingresa una contraseña',
+        emptyMessage: 'Sin resultados',
+        emptyFilterMessage: 'Sin resultados',
+        searchMessage: '{0} resultados disponibles',
+        selectionMessage: '{0} ítems seleccionados',
+        emptySelectionMessage: 'Ningún ítem seleccionado',
+        emptySearchMessage: 'Sin resultados',
+        aria: {
+          trueLabel: 'Verdadero',
+          falseLabel: 'Falso',
+          nullLabel: 'No seleccionado',
+          star: '1 estrella',
+          stars: '{star} estrellas',
+          selectAll: 'Seleccionar todo',
+          unselectAll: 'Deseleccionar todo',
+          close: 'Cerrar',
+          previous: 'Anterior',
+          next: 'Siguiente',
+          navigation: 'Navegación',
+          scrollTop: 'Ir arriba',
+          moveTop: 'Mover arriba',
+          moveUp: 'Subir',
+          moveDown: 'Bajar',
+          moveBottom: 'Mover abajo',
+          moveToTarget: 'Mover al destino',
+          moveToSource: 'Mover al origen',
+          moveAllToTarget: 'Mover todo al destino',
+          moveAllToSource: 'Mover todo al origen',
+          pageLabel: 'Página {page}',
+          firstPageLabel: 'Primera página',
+          lastPageLabel: 'Última página',
+          nextPageLabel: 'Siguiente página',
+          prevPageLabel: 'Página anterior',
+          rowsPerPageLabel: 'Filas por página',
+          jumpToPageDropdownLabel: 'Ir a página',
+          jumpToPageInputLabel: 'Ir a página',
+          selectRow: 'Fila seleccionada',
+          unselectRow: 'Fila deseleccionada',
+          expandRow: 'Fila expandida',
+          collapseRow: 'Fila colapsada',
+          showFilterMenu: 'Mostrar menú de filtros',
+          hideFilterMenu: 'Ocultar menú de filtros',
+          filterOperator: 'Operador de filtro',
+          filterConstraint: 'Restricción de filtro',
+          editRow: 'Editar fila',
+          saveEdit: 'Guardar edición',
+          cancelEdit: 'Cancelar edición',
+          listView: 'Vista de lista',
+          gridView: 'Vista de cuadrícula',
+          slide: 'Diapositiva',
+          slideNumber: '{slideNumber}',
+          zoomImage: 'Ampliar imagen',
+          zoomIn: 'Acercar',
+          zoomOut: 'Alejar',
+          rotateRight: 'Rotar a la derecha',
+          rotateLeft: 'Rotar a la izquierda',
+        },
+      },
+    }),
+
+    // ── Servicios globales de PrimeNG ─────────────────
+    MessageService,
+    ConfirmationService,
+  ],
 };
