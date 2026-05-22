@@ -70,6 +70,13 @@ $transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 0 14px rgba(56, 189, 248, 0.3);
 
   i { font-size: 16px; }
+  
+  img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    display: block;
+  }
 }
 
 .brand-text {

@@ -12,5 +12,5 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
   styleUrl: './app.scss'
 })
 export class App {
-  protected readonly title = signal('clinic-abp-web');
+  protected readonly title = signal('clinic-abp');
 }

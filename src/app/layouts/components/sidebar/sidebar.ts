@@ -1,3 +1,4 @@
+import { NgOptimizedImage } from '@angular/common';
 import { Component, input, output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { BadgeModule } from 'primeng/badge';
@@ -6,7 +7,7 @@ import { NAV_SECTIONS, NavSection } from '@core/models/nav.model';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [RouterLink, RouterLinkActive, BadgeModule, TooltipModule],
+  imports: [RouterLink, RouterLinkActive, BadgeModule, TooltipModule, NgOptimizedImage],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.scss',
 })

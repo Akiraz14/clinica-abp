@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "clinic-abp-web": {
+    "clinic-abp": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -65,10 +65,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "clinic-abp-web:build:production"
+              "buildTarget": "clinic-abp:build:production"
             },
             "development": {
-              "buildTarget": "clinic-abp-web:build:development"
+              "buildTarget": "clinic-abp:build:development"
             }
           },
           "defaultConfiguration": "development"
