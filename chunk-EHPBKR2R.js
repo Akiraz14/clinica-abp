@@ -1,0 +1,1 @@
+import{Nb as a,Sa as e,nb as o,ob as i}from"./chunk-RA4QBWRB.js";import"./chunk-7CGTOI24.js";var r=class t{static \u0275fac=function(n){return new(n||t)};static \u0275cmp=e({type:t,selectors:[["app-configuration"]],decls:2,vars:0,template:function(n,s){n&1&&(o(0,"p"),a(1,"configuration works!"),i())},encapsulation:2})};export{r as Configuration};

@@ -1,0 +1,1 @@
+import"./chunk-7CGTOI24.js";var o=[{path:"",loadComponent:()=>import("./chunk-N5J2KRAL.js").then(t=>t.AppointmentList)},{path:":id",loadComponent:()=>import("./chunk-6X45PXIU.js").then(t=>t.AppointmentDetail)}];export{o as appointments_routes};
