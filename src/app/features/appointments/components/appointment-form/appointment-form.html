@@ -1,0 +1,183 @@
+<div class="appointment-form">
+
+  <!-- Step indicator -->
+  <div class="steps-bar">
+    @for (p of steps; track p.label; let i = $index) {
+      <div class="step-item" [class.done]="step > i" [class.active]="step === i">
+        <div class="step-num">
+          @if (step > i) { <i class="pi pi-check"></i> }
+          @else { {{ i + 1 }} }
+        </div>
+        <div class="step-label">{{ p.label }}</div>
+      </div>
+      @if (i < steps.length - 1) { <div class="step-line" [class.done]="step > i"></div> }
+    }
+  </div>
+
+  <!-- ── PASO 0: Paciente ── -->
+  @if (step === 0) {
+    <div class="form-body">
+      <div class="form-section-title">Buscar paciente</div>
+      <div class="field-group">
+        <div class="field">
+          <label>Nombre o número de paciente</label>
+          <div class="search-patient">
+            <i class="pi pi-search"></i>
+            <input pInputText
+              [ngModel]="form().patientName"
+              (ngModelChange)="form.update(f => ({...f, patientName: $event}))"
+              placeholder="Ej: Ana García o #P-0041" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Paciente seleccionado pill -->
+      @if (form().patientName) {
+        <div class="patient-pill">
+          <div class="pill-avatar">{{ form().patientName | slice:0:1 }}</div>
+          <div class="pill-info">
+            <span class="pill-name">{{ form().patientName }}</span>
+            <span class="pill-id">#P-0041 · 34 años</span>
+          </div>
+          <button class="pill-remove" (click)="form.update(f => ({...f, patientName: '', patientId: ''}))">
+            <i class="pi pi-times"></i>
+          </button>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- ── PASO 1: Médico y Fecha ── -->
+  @if (step === 1) {
+    <div class="form-body">
+      <div class="form-grid">
+        <div class="field">
+          <label>Especialidad</label>
+          <p-select
+            [options]="specialties"
+            [ngModel]="form().specialty"
+            (ngModelChange)="form.update(f => ({...f, specialty: $event}))"
+            optionLabel="label" optionValue="value"
+            placeholder="Seleccionar..."
+            styleClass="w-full"
+          />
+        </div>
+
+        <div class="field">
+          <label>Médico</label>
+          <p-select
+            [options]="doctors"
+            [ngModel]="form().doctorId"
+            (ngModelChange)="onDoctorChange($event)"
+            optionLabel="label" optionValue="value"
+            placeholder="Seleccionar..."
+            styleClass="w-full"
+          />
+        </div>
+
+        <div class="field">
+          <label>Fecha</label>
+          <p-datepicker
+            [ngModel]="form().date"
+            (ngModelChange)="form.update(f => ({...f, date: $event}))"
+            [minDate]="today"
+            dateFormat="dd/mm/yy"
+            styleClass="w-full"
+          />
+        </div>
+
+        <div class="field">
+          <label>Duración</label>
+          <p-select
+            [options]="durations"
+            [ngModel]="form().durationMinutes"
+            (ngModelChange)="form.update(f => ({...f, durationMinutes: $event}))"
+            optionLabel="label" optionValue="value"
+            styleClass="w-full"
+          />
+        </div>
+
+        <div class="field">
+          <label>Tipo de cita</label>
+          <p-select
+            [options]="appointmentTypes"
+            [ngModel]="form().type"
+            (ngModelChange)="form.update(f => ({...f, type: $event}))"
+            optionLabel="label" optionValue="value"
+            styleClass="w-full"
+          />
+        </div>
+
+        <div class="field">
+          <label>Consultorio</label>
+          <input pInputText
+            [ngModel]="form().office"
+            (ngModelChange)="form.update(f => ({...f, office: $event}))"
+            placeholder="Ej: Consultorio 3 – Piso 2" />
+        </div>
+      </div>
+
+      <!-- Slots de tiempo -->
+      @if (form().doctorId && slots().length > 0) {
+        <div class="field full" style="margin-top:8px">
+          <label>Hora disponible</label>
+          <div class="slots-grid">
+            @for (slot of slots(); track slot.time) {
+              <div
+                class="slot"
+                [class.taken]="!slot.available"
+                [class.selected]="form().startTime === slot.time"
+                (click)="selectSlot(slot)"
+              >{{ slot.time }}</div>
+            }
+          </div>
+        </div>
+      }
+
+      <div class="field full" style="margin-top:8px">
+        <label>Motivo de consulta</label>
+        <textarea pTextarea
+          [ngModel]="form().reason"
+          (ngModelChange)="form.update(f => ({...f, reason: $event}))"
+          rows="3"
+          placeholder="Describe brevemente el motivo de la cita..."
+          style="width:100%"
+        ></textarea>
+      </div>
+    </div>
+  }
+
+  <!-- ── PASO 2: Confirmar ── -->
+  @if (step === 2) {
+    <div class="form-body">
+      <div class="confirm-section">
+        <div class="confirm-title">Resumen de la cita</div>
+        <div class="confirm-grid">
+          <div class="confirm-item"><span class="c-key">Paciente</span><span class="c-val">{{ form().patientName || '—' }}</span></div>
+          <div class="confirm-item"><span class="c-key">Médico</span><span class="c-val">{{ form().doctorName || '—' }}</span></div>
+          <div class="confirm-item"><span class="c-key">Especialidad</span><span class="c-val">{{ form().specialty || '—' }}</span></div>
+          <div class="confirm-item"><span class="c-key">Fecha</span><span class="c-val">{{ form().date | date:'d MMMM yyyy':'':'es' }}</span></div>
+          <div class="confirm-item"><span class="c-key">Hora</span><span class="c-val">{{ form().startTime || '—' }}</span></div>
+          <div class="confirm-item"><span class="c-key">Duración</span><span class="c-val">{{ form().durationMinutes }} min</span></div>
+          <div class="confirm-item"><span class="c-key">Tipo</span><span class="c-val">{{ form().type }}</span></div>
+          <div class="confirm-item"><span class="c-key">Consultorio</span><span class="c-val">{{ form().office || '—' }}</span></div>
+          <div class="confirm-item full"><span class="c-key">Motivo</span><span class="c-val">{{ form().reason || '—' }}</span></div>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Footer -->
+  <div class="form-footer">
+    @if (step > 0) {
+      <p-button label="Anterior" icon="pi pi-arrow-left" severity="secondary" [outlined]="true" (onClick)="previousStep()" />
+    }
+    <p-button label="Cancelar" severity="secondary" [text]="true" (onClick)="cancelled.emit()" />
+    <div style="flex:1"></div>
+    @if (step < 2) {
+      <p-button label="Siguiente" iconPos="right" icon="pi pi-arrow-right" (onClick)="nextStep()" />
+    } @else {
+      <p-button label="Confirmar cita" icon="pi pi-check" (onClick)="save()" />
+    }
+  </div>
+</div>

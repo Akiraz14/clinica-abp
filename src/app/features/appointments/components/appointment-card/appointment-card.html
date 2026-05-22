@@ -1,0 +1,30 @@
+<div class="appointment-card" [routerLink]="['/citas', appointment().id]">
+  <div class="card-accent" [style.background]="accentColors[appointment().status]"></div>
+  <div class="card-body">
+    <div class="card-top">
+      <div>
+        <div class="patient-name">{{ appointment().patientName }}</div>
+        <div class="appointment-type">{{ appointment().specialty }} · {{ appointment().type | titlecase }}</div>
+      </div>
+      <p-tag [value]="appointment().status" [severity]="getSeverity(appointment().status)" />
+    </div>
+    <div class="card-meta">
+      <div class="meta-row"><i class="pi pi-calendar"></i>{{ appointment().date | date:'EEE d MMM':'':'es' }}</div>
+      <div class="meta-row"><i class="pi pi-clock"></i>{{ appointment().startTime }} – {{ appointment().endTime }} · {{ appointment().durationMinutes }} min</div>
+      <div class="meta-row">
+        @if (appointment().type === AppointmentType.Telemedicine) { <i class="pi pi-video"></i>Videollamada }
+        @else { <i class="pi pi-building"></i>{{ appointment().office }} }
+      </div>
+    </div>
+  </div>
+  <div class="card-footer" (click)="$event.stopPropagation()">
+    <div class="doctor-chip">
+      <div class="doc-avatar">{{ appointment().doctorName | slice:0:1 }}M</div>
+      {{ appointment().doctorName }}
+    </div>
+    <div class="footer-actions">
+      <p-button icon="pi pi-eye"    [rounded]="true" [text]="true" severity="secondary" size="small" pTooltip="Ver detalle" (onClick)="detailsViewed.emit(appointment())" />
+      <p-button icon="pi pi-ellipsis-v" [rounded]="true" [text]="true" severity="secondary" size="small" pTooltip="Más opciones" (onClick)="edited.emit(appointment())" />
+    </div>
+  </div>
+</div>

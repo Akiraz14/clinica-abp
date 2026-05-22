@@ -1,0 +1,164 @@
+<div class="citas-list-page">
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="search-box">
+      <i class="pi pi-search search-icon"></i>
+      <input
+        pInputText
+        [(ngModel)]="search"
+        (ngModelChange)="onSearch()"
+        placeholder="Buscar paciente, médico..."
+        class="search-input"
+      />
+    </div>
+
+    <!-- Filtro estado -->
+    <div class="filter-chips">
+      @for (op of statusFilterOptions; track op.value) {
+        <button
+          class="chip"
+          [class.active]="activeStatusFilter === op.value"
+          (click)="onStatusFilterChange(op.value)"
+        >{{ op.label }}</button>
+      }
+    </div>
+
+    <!-- Filtro médico -->
+    <p-select
+      [options]="doctorOptions"
+      [(ngModel)]="selectedDoctorId"
+      (ngModelChange)="onDoctorFilterChange()"
+      optionLabel="label"
+      optionValue="value"
+      class="medico-dropdown"
+    />
+
+    <div class="spacer"></div>
+    <p-button
+      label="Nueva cita"
+      icon="pi pi-plus"
+      (onClick)="openCreateDialog()"
+      class="btn-nueva"
+    />
+  </div>
+
+  <!-- Table card -->
+  <div class="table-card">
+    <div class="table-header">
+      <span class="table-title">Citas programadas</span>
+      <div class="table-actions">
+        <span class="record-count">{{ appointments().length }} registros</span>
+        <p-button icon="pi pi-download" [rounded]="true" [text]="true" severity="secondary" />
+        <p-button icon="pi pi-sliders-h" [rounded]="true" [text]="true" severity="secondary" />
+      </div>
+    </div>
+
+    <p-table
+      [value]="appointments()"
+      [loading]="loading()"
+      [paginator]="true"
+      [rows]="10"
+      [rowsPerPageOptions]="[5,10,25]"
+      class="appointments-table"
+      [rowHover]="true"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Paciente</th>
+          <th>Médico</th>
+          <th>Especialidad</th>
+          <th>Fecha & hora</th>
+          <th>Tipo</th>
+          <th>Estado</th>
+          <th style="width:90px"></th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-appointment>
+        <tr [routerLink]="['/citas', appointment.id]" class="appointment-row">
+          <td>
+            <div class="cell-patient">
+              <div
+                class="patient-avatar"
+                [style.background]="getAvatarColor(appointment.patientName)"
+              >{{ getInitials(appointment.patientName) }}</div>
+              <div>
+                <div class="cell-main">{{ appointment.patientName }}</div>
+                <div class="cell-sub">{{ appointment.patientNumber }}</div>
+              </div>
+            </div>
+          </td>
+          <td>{{ appointment.doctorName }}</td>
+          <td>{{ appointment.specialty }}</td>
+          <td>
+            <div class="cell-main">{{ appointment.date | date:'EEE d MMM':'':'es' }}</div>
+            <div class="cell-sub">{{ appointment.startTime }} · {{ appointment.durationMinutes }} min</div>
+          </td>
+          <td>
+            <p-tag
+              [value]="appointment.type"
+              [severity]="
+                appointment.type === AppointmentType.InPerson
+                  ? 'info'
+                  : appointment.type === AppointmentType.Telemedicine
+                    ? 'warn'
+                    : 'secondary'
+              "
+              styleClass="tipo-tag"
+            />
+          </td>
+          <td>
+            <p-tag
+              [value]="appointment.status"
+              [severity]="getSeverity(appointment.status)"
+              styleClass="estado-tag"
+            />
+          </td>
+          <td (click)="$event.stopPropagation()">
+            <div class="row-actions">
+              <p-button
+                icon="pi pi-pencil"
+                [rounded]="true" [text]="true" severity="secondary" size="small"
+                pTooltip="Editar" tooltipPosition="top"
+                (onClick)="edit(appointment)"
+              />
+              <p-button
+                icon="pi pi-times"
+                [rounded]="true" [text]="true" severity="danger" size="small"
+                pTooltip="Cancelar" tooltipPosition="top"
+                (onClick)="cancel(appointment.id)"
+              />
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="7" class="empty-state">
+            <i class="pi pi-calendar" style="font-size:2rem;color:#cbd5e1"></i>
+            <p>No se encontraron citas</p>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<!-- Modal formulario -->
+<p-dialog
+  [visible]="showFormDialog()"
+  (visibleChange)="showFormDialog.set($event)"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="appointment-dialog"
+  header="Nueva cita"
+>
+  <app-appointment-form
+    [appointmentToEdit]="appointmentToEdit()"
+    (saved)="onFormSaved()"
+    (cancelled)="showFormDialog.set(false)"
+  />
+</p-dialog>

@@ -1,0 +1,57 @@
+.calendario { display: flex; flex-direction: column; background: #fff; border-radius: 14px; border: 1px solid rgba(15,23,42,.07); overflow: hidden; }
+
+.cal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 20px; border-bottom: 1px solid rgba(15,23,42,.07); flex-wrap: wrap; gap: 10px;
+}
+.cal-title   { font-size: 16px; font-weight: 600; color: #0f172a; margin: 0; }
+.cal-subtitle { font-size: 12px; color: #94a3b8; margin-top: 2px; display: block; }
+.cal-controls { display: flex; align-items: center; gap: 10px; }
+
+.vista-tabs { display: flex; background: #f1f5f9; border-radius: 8px; padding: 3px; gap: 2px; }
+.vista-btn {
+  padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 500;
+  cursor: pointer; color: #94a3b8; border: none; background: transparent; font-family: inherit; transition: all .18s;
+  &.active { background: #fff; color: #0f172a; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+}
+.nav-btns { display: flex; gap: 4px; align-items: center; }
+.nav-btn {
+  width: 32px; height: 32px; border-radius: 8px; border: 1px solid rgba(15,23,42,.12);
+  background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  color: #64748b; font-size: 13px; font-family: inherit; transition: all .18s;
+  &:hover { background: #f8fafc; }
+}
+.today-btn { width: auto; padding: 0 12px; font-size: 12.5px; font-weight: 500; }
+
+.week-grid-wrap { overflow-x: auto; }
+.week-grid { width: 100%; border-collapse: collapse; min-width: 600px; }
+
+.time-head, .day-head {
+  padding: 10px 8px; text-align: center; font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .6px; color: #94a3b8;
+  background: #fafafa; border-bottom: 1px solid rgba(15,23,42,.07);
+}
+.time-head { width: 60px; }
+.day-head {
+  &.today { color: #0f172a; }
+  .day-name { display: block; margin-bottom: 3px; }
+  .day-num  { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; font-size: 16px; font-weight: 600; color: #0f172a; }
+  .today-circle { background: #0ea5e9; color: #fff; }
+}
+.time-cell {
+  font-size: 11px; color: #94a3b8; text-align: right; padding-right: 10px;
+  vertical-align: top; padding-top: 6px; border-bottom: 1px solid rgba(15,23,42,.05);
+  white-space: nowrap;
+}
+.day-cell {
+  border-left: 1px solid rgba(15,23,42,.05); border-bottom: 1px solid rgba(15,23,42,.05);
+  height: 54px; vertical-align: top; padding: 3px; min-width: 100px;
+  &.today-col { background: rgba(14,165,233,.03); border-left: 2px solid rgba(14,165,233,.2); }
+}
+.cal-event {
+  border-radius: 6px; padding: 4px 7px; font-size: 11px; cursor: pointer;
+  height: calc(100% - 2px); transition: filter .18s; line-height: 1.3;
+  &:hover { filter: brightness(.92); }
+}
+.event-name { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.event-spec { opacity: .7; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

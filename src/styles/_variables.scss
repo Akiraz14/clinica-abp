@@ -1,0 +1,84 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Global Color Variables - Clinic ABP Web
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ── Primary Colors ──────────────────────────────────────────────────────────
+$color-primary: #0ea5e9;           // Sky Blue
+$color-primary-hover: #38bdf8;     // Sky Blue Hover
+$color-primary-dark: #0284c7;      // Sky Blue Dark
+
+// ── Secondary Colors ────────────────────────────────────────────────────────
+$color-secondary: #0f766e;         // Teal
+
+// ── Accent Colors ───────────────────────────────────────────────────────────
+$color-accent: #f59e0b;            // Amber
+$color-accent-dark: #a16207;       // Amber Dark
+
+// ── Status Colors ───────────────────────────────────────────────────────────
+$color-success: #22c55e;           // Green
+$color-success-dark: #15803d;      // Green Dark
+$color-success-light: #dcfce7;     // Green Light Background
+
+$color-danger: #ef4444;            // Red
+$color-danger-dark: #dc2626;       // Red Dark
+$color-danger-light: #fee2e2;      // Red Light Background
+
+$color-warning: #f59e0b;           // Amber (used for pending)
+$color-warning-dark: #a16207;      // Amber Dark
+$color-warning-light: #fef9c3;     // Amber Light Background
+
+// ── Neutral Colors ──────────────────────────────────────────────────────────
+$color-white: #ffffff;             // Pure White
+$color-black: #000000;             // Pure Black
+
+// ── Text Colors ─────────────────────────────────────────────────────────────
+$color-text-dark: #0f172a;         // Text Dark (primary text)
+$color-text-medium: #64748b;       // Text Medium (secondary text)
+$color-text-light: #94a3b8;        // Text Light (tertiary text)
+$color-text-gray: #6b7280;         // Text Gray (alternative)
+$color-text-gray-dark: #4b5563;    // Text Gray Dark
+
+// ── Background Colors ───────────────────────────────────────────────────────
+$color-bg-app: #f0f4f8;            // App Background (main)
+$color-bg-light: #fafafa;          // Background Light (table headers)
+$color-bg-lighter: #fafcff;        // Background Lighter (hover)
+$color-bg-lightest: #f8fafc;       // Background Lightest (inputs, buttons)
+
+// ── Border Colors ───────────────────────────────────────────────────────────
+$color-border-light: #e5e7eb;      // Border Light
+$color-border-lighter: #cbd5e1;    // Border Lighter
+$color-border-subtle: rgba(15, 23, 42, 0.08);    // Subtle border
+$color-border-subtle-2: rgba(15, 23, 42, 0.06); // More subtle border
+$color-border-subtle-3: rgba(15, 23, 42, 0.05); // Even more subtle
+$color-border-white-subtle: rgba(255, 255, 255, 0.05);  // White subtle
+
+// ── Special Colors ──────────────────────────────────────────────────────────
+$color-sidebar-bg: #0b1628;        // Sidebar Dark Background
+$color-blue: #2563eb;              // Alternative Blue
+
+// ── Color Aliases for Semantic Use ──────────────────────────────────────────
+$color-info: $color-primary;
+$color-info-light: #dcfce7;        // Similar to success light
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Breakpoints
+// ─────────────────────────────────────────────────────────────────────────────
+$breakpoint-mobile: 768px;
+$breakpoint-tablet: 1024px;
+$breakpoint-desktop: 1440px;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Transitions
+// ─────────────────────────────────────────────────────────────────────────────
+$transition-fast: all 0.22s ease;
+$transition-smooth: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Sizing
+// ─────────────────────────────────────────────────────────────────────────────
+$sidebar-width: 260px;
+$sidebar-collapsed: 68px;
+$topbar-height: 62px;
+$border-radius-small: 8px;
+$border-radius-medium: 12px;
+$border-radius-full: 20px;

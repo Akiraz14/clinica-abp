@@ -1,0 +1,57 @@
+<div class="calendario">
+  <div class="cal-header">
+    <div class="cal-title-wrap">
+      <h2 class="cal-title">{{ monthTitle() | titlecase }}</h2>
+      <span class="cal-subtitle">Semana vista</span>
+    </div>
+    <div class="cal-controls">
+      <div class="vista-tabs">
+        @for (v of viewOptions; track v.value) {
+          <button class="vista-btn" [class.active]="view() === v.value" (click)="view.set(v.value)">{{ v.label }}</button>
+        }
+      </div>
+      <div class="nav-btns">
+        <button class="nav-btn" (click)="previous()"><i class="pi pi-chevron-left"></i></button>
+        <button class="nav-btn today-btn" (click)="goToToday()">Hoy</button>
+        <button class="nav-btn" (click)="next()"><i class="pi pi-chevron-right"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-grid-wrap">
+    <table class="week-grid">
+      <thead>
+        <tr>
+          <th class="time-head"></th>
+          @for (dia of weekDays(); track dia.getDate()) {
+            <th class="day-head" [class.today]="isToday(dia)">
+              <span class="day-name">{{ dia | date:'EEE':'':'es' | uppercase }}</span>
+              <span class="day-num" [class.today-circle]="isToday(dia)">{{ dia | date:'d' }}</span>
+            </th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (hour of HOURS; track hour) {
+          <tr>
+            <td class="time-cell">{{ hour }}</td>
+            @for (day of weekDays(); track day.getDate()) {
+              <td class="day-cell" [class.today-col]="isToday(day)">
+                @for (appointment of getAppointmentsByCell(day, hour); track appointment.id) {
+                  <div
+                    class="cal-event"
+                    [style.background]="DOCTOR_COLORS[appointment.doctorId] ?? '#e2e8f0'"
+                    [title]="appointment.patientName + ' – ' + appointment.doctorName"
+                  >
+                    <div class="event-name">{{ appointment.patientName }}</div>
+                    <div class="event-spec">{{ appointment.specialty }}</div>
+                  </div>
+                }
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

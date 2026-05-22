@@ -1,0 +1,235 @@
+@if (appointment(); as appointment) {
+
+<div class="appointment-detail-page">
+
+  <p-confirmDialog />
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb-bar">
+
+    <p-button
+      label="Volver"
+      icon="pi pi-arrow-left"
+      [text]="true"
+      severity="secondary"
+      size="small"
+      (onClick)="goBack()"
+    />
+
+    <span class="bc-sep">/</span>
+
+    <a
+      [routerLink]="paths.appointments.list"
+      class="bc-link"
+    >
+      Citas
+    </a>
+
+    <span class="bc-sep">/</span>
+
+    <span class="bc-current">
+      {{ appointment.id }}
+    </span>
+
+  </div>
+
+  <div class="detail-layout">
+
+    <!-- Main panel -->
+    <div class="main-panel">
+
+      <!-- Hero card -->
+      <div class="hero-card">
+
+        <div class="hero-body">
+
+          <div class="hero-icon">
+            <i class="pi pi-calendar-clock"></i>
+          </div>
+
+          <div class="hero-info">
+
+            <h1 class="hero-title">
+              {{ appointment.specialty }}
+              —
+              {{ appointment.patientName }}
+            </h1>
+
+            <p class="hero-sub">
+              {{ appointment.id }}
+              ·
+              {{ appointment.doctorName }}
+              ·
+              {{ appointment.specialty }}
+            </p>
+
+            <div class="hero-badges">
+
+              <p-tag
+                [value]="appointment.status"
+                [severity]="getSeverity(appointment.status)"
+              />
+
+              <p-tag
+                [value]="appointment.type"
+                severity="info"
+              />
+
+              <p-tag
+                value="Primera visita"
+                severity="secondary"
+              />
+
+            </div>
+          </div>
+
+          <div class="hero-actions">
+
+            <p-button
+              label="Iniciar consulta"
+              icon="pi pi-play"
+              size="small"
+              (onClick)="startAppointment()"
+            />
+
+            <p-button
+              label="Editar"
+              icon="pi pi-pencil"
+              severity="secondary"
+              [outlined]="true"
+              size="small"
+              (onClick)="showEditDialog.set(true)"
+            />
+
+            <p-button
+              label="Cancelar"
+              icon="pi pi-times"
+              severity="danger"
+              [outlined]="true"
+              size="small"
+              (onClick)="confirmCancellation()"
+            />
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Info cita -->
+      <div class="info-card">
+        <div class="info-card-header">Información de la cita</div>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-key">Fecha</span>
+            <span class="info-val"><i class="pi pi-calendar"></i>{{ appointment.date | date:'EEEE d MMMM yyyy':'':'es' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-key">Hora</span>
+            <span class="info-val"><i class="pi pi-clock"></i>{{ appointment.startTime }} – {{ appointment.endTime }} ({{ appointment.durationMinutes }} min)</span>
+          </div>
+          <div class="info-item">
+            <span class="info-key">Consultorio</span>
+            <span class="info-val"><i class="pi pi-building"></i>{{ appointment.office }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-key">Motivo</span>
+            <span class="info-val">{{ appointment.reason }}</span>
+        </div>
+      </div>
+    </div>
+
+      <!-- Paciente -->
+      <div class="info-card">
+        <div class="info-card-header">
+          Paciente
+          <a [routerLink]="['/pacientes', appointment.patientId]" class="header-link">Ver historial →</a>
+        </div>
+        <div class="paciente-row">
+          <div class="paciente-avatar">{{ appointment.patientName | slice:0:1 }}{{ appointment.patientName.split(' ')[1] | slice:0:1 }}</div>
+          <div>
+            <div class="paciente-name">{{ appointment.patientName }}</div>
+            <div class="paciente-sub">{{ appointment.patientNumber }} · 34 años · Femenino</div>
+          </div>
+        </div>
+        <div class="info-grid" style="margin-top:12px">
+          <div class="info-item"><span class="info-key">Teléfono</span><span class="info-val">+57 310 456 7890</span></div>
+          <div class="info-item"><span class="info-key">Email</span><span class="info-val">ana.garcia@email.com</span></div>
+          <div class="info-item"><span class="info-key">EPS</span><span class="info-val">Sura</span></div>
+          <div class="info-item"><span class="info-key">Alergias</span><span class="info-val allergy">Penicilina</span></div>
+        </div>
+      </div>
+
+      @if (appointment.notes) {
+        <div class="info-card">
+          <div class="info-card-header">Notas previas</div>
+          <div class="notas-box">{{ appointment.notes }}</div>
+        </div>
+      }
+    </div>
+
+    <!-- ── Panel lateral ── -->
+    <div class="side-panel">
+
+      <!-- Timeline estado -->
+      <div class="info-card">
+        <div class="info-card-header">Estado de la cita</div>
+        <div class="timeline-list">
+          @for (ev of timelineEvents; track ev.label) {
+            <div class="tl-item" [class]="ev.state">
+              <div class="tl-dot"><i [class]="ev.icon"></i></div>
+              <div class="tl-body">
+                <div class="tl-label">{{ ev.label }}</div>
+                <div class="tl-fecha">{{ ev.date }}</div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Médico -->
+      <div class="info-card">
+        <div class="info-card-header">Médico asignado</div>
+        <div class="medico-row">
+          <div class="medico-avatar">{{ appointment.doctorName | slice:4:5 }}M</div>
+          <div>
+            <div class="medico-name">{{ appointment.doctorName }}</div>
+            <div class="medico-sub">{{ appointment.specialty }} · 12 años exp.</div>
+          </div>
+        </div>
+        <div class="medico-contact">
+          <div class="contact-row"><i class="pi pi-phone"></i>+57 301 234 5678</div>
+          <div class="contact-row"><i class="pi pi-envelope"></i>c.morales&#64;clinicaabp.com</div>
+          <div class="contact-row"><i class="pi pi-building"></i>{{ appointment.office }}</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+} @else {
+
+  <div class="not-found">
+    <i class="pi pi-calendar-times"></i>
+    <p>Cita no encontrada</p>
+    <p-button
+      label="Volver a citas"
+      icon="pi pi-arrow-left"
+      (onClick)="goBack()"
+    />
+  </div>
+
+}
+
+<p-dialog
+  [visible]="showEditDialog()"
+  (visibleChange)="showEditDialog.set($event)"
+  [modal]="true"
+  header="Editar cita"
+  styleClass="appointment-dialog"
+>
+  <app-appointment-form
+    [appointmentToEdit]="appointment() ?? null"
+    (saved)="showEditDialog.set(false)"
+    (cancelled)="showEditDialog.set(false)"
+  />
+</p-dialog>
