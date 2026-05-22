@@ -1,0 +1,1 @@
+import{Lb as a,Qa as e,lb as o,mb as i}from"./chunk-HHWNYK6E.js";import"./chunk-7CGTOI24.js";var r=class t{static \u0275fac=function(n){return new(n||t)};static \u0275cmp=e({type:t,selectors:[["app-configuration"]],decls:2,vars:0,template:function(n,s){n&1&&(o(0,"p"),a(1,"configuration works!"),i())},encapsulation:2})};export{r as Configuration};
